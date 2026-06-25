@@ -12,7 +12,7 @@
 int main(int argc, char *argv[]) {
   int fd, fd2;
   int result;
-  int buf[1024];
+  int buf[16384];
 
   if (argc != 3) {
     printf("Usage %s file newfile\n", argv[0]); exit(1);
@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   if (fd2 == -1) { perror("Write open failed"); exit(1); }
 
   while (1) {
-    result= read(fd, buf, 1024);
+    result= read(fd, buf, 16384);
     if (result == -1) { perror("Read failed"); exit(1); }
     if (result ==0) break;
     result= write(fd2, buf, result);

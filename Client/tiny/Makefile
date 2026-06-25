@@ -1,4 +1,4 @@
-CFLAGS= -O
+CFLAGS= -O -i
 
 all: tcp tcat tstat tprdir tls trm tln tmv tmkdir \
 	trmdir tchmod tchown
