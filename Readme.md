@@ -25,6 +25,11 @@ On the machine you want to be the Brf server, change into
 the [Server](Server) directory and do a `make` to create
 the `brfserver` executable.
 
+```
+$ make
+cc -o brfserver -O netcode.c bsdcode.c
+```
+
 Make a directory somewhere on the server, e.g:
 
 ```
