@@ -1,0 +1,9 @@
+Another message Another message Opening /foo/dave O_WRONLY|O_CREAT
+Writing 16 bytes to the file
+Wrote 16 bytes
+Writing using second fd
+Closing the fds
+Opening /foo/dave O_RDONLY
+Reading from the file
+We read in 32 bytes
+Closing the fd

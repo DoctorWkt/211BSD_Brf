@@ -1,0 +1,5 @@
+Opening /foo/fred O_WRONLY|O_CREAT mode 0544
+F_OK access gives 0
+R_OK access gives 0
+W_OK access gives 0
+X_OK access gives -1

@@ -1,0 +1,10 @@
+Hello fromswept throns by HenrOpening /foo/seektest O_RDWR|O_CREAT
+Writing 320 bytes to the file
+Wrote 320 bytes
+Seeking to the start of the file
+
+Seeking to the middle of the file
+
+Seeking to the end of the file
+
+Closing the fd

@@ -1,0 +1,12 @@
+Hello from a 2.11BSD system!
+Opening /foo/abcd O_WRONLY|O_CREAT
+Writing 29 bytes to the file
+Wrote 29 bytes
+Closing the fd
+Opening /foo/abcd O_RDONLY
+Reading from the file
+We read in 29 bytes
+fstat: size 29
+Closing the fd
+stat: size 29
+lstat: size 29

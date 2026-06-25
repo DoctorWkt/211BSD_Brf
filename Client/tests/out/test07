@@ -1,0 +1,3 @@
+Opening /foo/fred O_WRONLY|O_CREAT
+Set permission to 0400
+Set permission to 0664

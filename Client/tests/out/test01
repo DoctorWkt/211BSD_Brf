@@ -1,0 +1,9 @@
+Hello from a 2.11BSD system!
+Opening /foo/fred O_WRONLY|O_CREAT
+Writing 29 bytes to the file
+Wrote 29 bytes
+Closing the fd
+Opening /foo/fred O_RDONLY
+Reading from the file
+We read in 29 bytes
+Closing the fd
