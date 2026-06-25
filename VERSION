@@ -1,0 +1,6 @@
+Version 0.1: First release of Brf
+---------------------------------
+Most of the file-related syscalls have shim functions.
+There are a small number of tiny utilities. The protocol runs over TCP.
+There is an issue with link ordering which prevents Brf
+from being linked with the C library.
