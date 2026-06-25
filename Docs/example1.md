@@ -11,7 +11,7 @@ and all file/directories will get created with uid 1000 and gid 1000.
 Over on my 2.11BSD system, I added the `wkt` username, uid, group name
 and gid to `/etc/passwd` and `/etc/group` before I did the following.
 
-On machine where I'm going to run `brfserver`, I did:
+On the machine where I'm going to run `brfserver`, I did:
 
 ```
 $ mkdir /tmp/bar

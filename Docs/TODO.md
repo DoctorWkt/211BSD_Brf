@@ -10,3 +10,6 @@ Improve performance if possible.
 
 Add support for relative filenames, for filenames with ".." in them
 and the ability to `cd` into and around the remote filesystem.
+
+Properly map the `errno` values on the server to the 2.11BSD
+equivalents.
