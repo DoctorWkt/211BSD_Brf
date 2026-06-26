@@ -16,10 +16,10 @@ tstat: tstat.c ../libbrf.a
 	cc -o tstat $(CFLAGS) tstat.c ../libbrf.a
 
 tprdir: tprdir.c ../libbrf.a
-	cc -o tprdir $(CFLAGS) tprdir.c ../libbrf.a
+	cc -o tprdir $(CFLAGS) tprdir.c -u _open -u _close -u _read ../libbrf.a
 
 tls: tls.c ../libbrf.a
-	cc -o tls $(CFLAGS) tls.c ../libbrf.a
+	cc -o tls $(CFLAGS) tls.c -u _open -u _close -u _read ../libbrf.a
 
 trm: trm.c ../libbrf.a
 	cc -o trm $(CFLAGS) trm.c ../libbrf.a

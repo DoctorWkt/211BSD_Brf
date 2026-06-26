@@ -30,76 +30,6 @@ int showdots=0;			// Show dot files
 int showinums=0;		// Show i-numbers not link counts
 int dircontents=1;		// Show the contents of a directory
 
-
-// Not sure why I have to put the
-// source for opendir() and friends here.
-// I'm guessing a link ordering issue.
-
-/*
- * open a directory.
- */
-DIR *
-opendir(name)
-	char *name;
-{
-	register DIR *dirp;
-	register int fd;
-
-	if ((fd = open(name, 0)) == -1)
-		return NULL;
-	if ((dirp = (DIR *)malloc(sizeof(DIR))) == NULL) {
-		close (fd);
-		return NULL;
-	}
-	dirp->dd_fd = fd;
-	dirp->dd_loc = 0;
-	return dirp;
-}
-
-/*
- * get next entry in a directory.
- */
-struct direct *
-readdir(dirp)
-	register DIR *dirp;
-{
-	register struct direct *dp;
-
-	for (;;) {
-		if (dirp->dd_loc == 0) {
-			dirp->dd_size = read(dirp->dd_fd, dirp->dd_buf, 
-			    DIRBLKSIZ);
-			if (dirp->dd_size <= 0)
-				return NULL;
-		}
-		if (dirp->dd_loc >= dirp->dd_size) {
-			dirp->dd_loc = 0;
-			continue;
-		}
-		dp = (struct direct *)(dirp->dd_buf + dirp->dd_loc);
-		if (dp->d_reclen <= 0 ||
-		    dp->d_reclen > DIRBLKSIZ + 1 - dirp->dd_loc)
-			return NULL;
-		dirp->dd_loc += dp->d_reclen;
-		if (dp->d_ino == 0)
-			continue;
-		return (dp);
-	}
-}
-
-/*
- * close a directory.
- */
-void
-closedir(dirp)
-	register DIR *dirp;
-{
-	close(dirp->dd_fd);
-	dirp->dd_fd = -1;
-	dirp->dd_loc = 0;
-	free(dirp);
-}
-
 char *
 getname(uid)
         uid_t uid;
@@ -166,6 +96,8 @@ void listone(char *entry, struct stat *sbptr)
     printf("%s",  permstr[(sbptr->st_mode >> 6) & 7]);
     printf("%s",  permstr[(sbptr->st_mode >> 3) & 7]);
     printf("%s ", permstr[(sbptr->st_mode)      & 7]);
+
+    printf("%3d ", sbptr->st_nlink);
 
     cp = getname(sbptr->st_uid);
     if (cp) printf("%-9.9s", cp);
