@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <sys/uio.h>
 #include "brf.h"
 #include "proto.h"
 
@@ -105,6 +106,8 @@ int get_client_conn(void) {
 int brf_respond(int fd, int result, int cmd, void *data, int datalen) {
   struct brf_resp bresp;
   int err;
+  struct iovec iov[2];
+  int iovcnt;
 
   // Fill in the response fields
   bresp.flag = 0xff;
@@ -113,15 +116,17 @@ int brf_respond(int fd, int result, int cmd, void *data, int datalen) {
   bresp.len = datalen;
   bresp.err = errno;		// XXX Need to map errno
 
-  // Send the response
-  err = write(fd, &bresp, sizeof(bresp));
-  if (err != sizeof(bresp)) return (-1);
+  // Build the iovec table
+  iov[0].iov_base= &bresp;
+  iov[0].iov_len= sizeof(bresp);
+  iov[1].iov_base= data;
+  iov[1].iov_len= datalen;
+  iovcnt= (datalen != 0) ? 2 : 1;
+  
 
-  // Send any extra data
-  if (datalen > 0) {
-    err = write(fd, data, datalen);
-    if (err != datalen) return (-1);
-  }
+  // Send the response
+  err = writev(fd, iov, iovcnt);
+  if (err != (iov[0].iov_len + iov[1].iov_len)) return (-1);
 
   return (0);
 }
