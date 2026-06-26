@@ -49,3 +49,6 @@ the server filesystem becomes available.
 Remote pathnames, at present, _must_ be absolute, i.e. start with a '/'. It
 is technically possible to deal with relative pathnames, but I wanted to get
 the main functionality working before I even tried to support this.
+
+For some reason, data reads bigger than ~1,024 bytes from the server seem
+to fail sporadically. In `read.c` I've limited reads to 1,024 bytes.

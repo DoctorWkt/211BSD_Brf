@@ -1,7 +1,7 @@
 CFLAGS= -O -i
 
 all: tcp tcat tstat tprdir tls trm tln tmv tmkdir \
-	trmdir tchmod tchown
+	trmdir tchmod tchown tto
 
 ../libbrf.a:
 	(cd ..; make)
@@ -42,6 +42,9 @@ tchmod: tchmod.c ../libbrf.a
 tchown: tchown.c ../libbrf.a
 	cc -o tchown $(CFLAGS) tchown.c ../libbrf.a
 
+tto: tto.c ../libbrf.a
+	cc -o tto $(CFLAGS) tto.c ../libbrf.a
+
 clean:
 	rm -f tcp tcat tstat tprdir tls trm tln tmv \
-	tmkdir trmdir tchmod tchown
+	tmkdir trmdir tchmod tchown tto
