@@ -124,7 +124,7 @@ $ tls -l /foo
   (I should make tls show link count)
 ```
 
-Finally, some directories:
+Now let's make some directories:
 
 ```
 $ tmkdir /foo/fred
@@ -149,4 +149,23 @@ $ tls -l /foo
 -rw-r--r-- wkt      wkt          268 another_file
 -rw-r--r-- wkt      wkt          268 newfile
 -rw-r--r-- wkt      wkt          268 second_name
+```
+
+Finally, there is a `tto` utility that send its standard input to a file.
+This is useful, for example, to `tar` up some files and put the result
+on the remote filesystem. Remember, `tar` doesn't know about the remote
+filesystem. So:
+
+```
+$ tar vcf - /bin/* | tto /foo/bin.tar
+a /bin/[ 19 blocks
+a /bin/adb 75 blocks
+a /bin/ar 34 blocks
+a /bin/as 23 blocks
+a /bin/awk 99 blocks
+...
+a /bin/true 1 blocks
+a /bin/wall 24 blocks
+a /bin/who 31 blocks
+a /bin/write 25 blocks
 ```

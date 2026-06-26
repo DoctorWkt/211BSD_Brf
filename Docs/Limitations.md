@@ -17,20 +17,6 @@ tls: No match.
 
 (as the shell cannot expand `/foo/*.tar`).
 
-There is an issue with the order of functions at the link stage:
-I've had to include the source code to `opendir()` and friends
-in the tiny `ls` utility. When I left the `opendir()` source out and did:
-
-```
-cc -o tls tls.c ../librf.a
-```
-
-then `opendir()` (which is in `libc` and which gets linked in _after_
-the Brf library) sees the real `open()` and not the "shim" version of
-`open()`. I would really like find a solution to this so that we can
-link any existing utility with the Brf library and other libraries
-(e.g. `libc` and hence the "stdio" library) will see the shim functions.
-
 The performance of Brf, both latency and data throughput, is poor.
 This is most likely because I am using TCP. Each client request requires
 a TCP ACK and each server response requires a TCP ACK, which adds latency
@@ -51,4 +37,4 @@ is technically possible to deal with relative pathnames, but I wanted to get
 the main functionality working before I even tried to support this.
 
 For some reason, data reads bigger than ~1,024 bytes from the server seem
-to fail sporadically. In `read.c` I've limited reads to 1,024 bytes.
+to fail sporadically. In the `brfserver` I've limited reads to 1,024 bytes.

@@ -2,9 +2,8 @@
 
 Add in shim functions for all the other file-related system calls.
 
-Solve the problem with link order of functions so that the Brf
-library can be linked in to existing utilities and work with
-the "stdio" library.
+Check that the Brf library can be linked in to existing utilities
+and work with the "stdio" library.
 
 Improve performance if possible.
 
