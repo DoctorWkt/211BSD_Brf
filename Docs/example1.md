@@ -46,8 +46,8 @@ Of course not. Now let's try some "tiny" utilities:
 
 ```
 $ tls -al /foo
-drwxr-xr-x wkt      wkt         4096 .
-drwxrwxrwx root     wheel      12288 ..
+drwxr-xr-x 2 wkt      wkt         4096 .
+drwxrwxrwx 2 root     wheel      12288 ..
 ```
 
 Yes! It's currently empty so let's fix that up.
@@ -55,7 +55,7 @@ Yes! It's currently empty so let's fix that up.
 ```
 $ tcp /etc/services /foo/file1
 $ tls -l /foo
--rw-r--r-- wkt      wkt         1669 file1
+-rw-r--r-- 1 wkt      wkt         1669 file1
 ```
 
 Note that, although I am `user` on 2.11BSD, the files are owned
@@ -81,7 +81,7 @@ get the first few lines. What else? Let's change the file's permissions:
 ```
 $ tchmod 444 /foo/file1
 $ tls -l /foo/file1
--r--r--r-- wkt      wkt         1669 /foo/file1
+-r--r--r-- 1 wkt      wkt         1669 /foo/file1
 ```
 
 Now let's try to overwrite the file:
@@ -99,7 +99,7 @@ and then remove it:
 ```
 $ tmv /foo/file1 /foo/file2
 $ tls -l /foo
--rw-r--r-- wkt      wkt         1669 file2
+-rw-r--r-- 1 wkt      wkt         1669 file2
 
 $ trm /foo/file1
 Unlink failed: No such file or directory
@@ -118,10 +118,9 @@ $ tcp /foo/newfile /foo/another_file
 $ tln /foo/another_file /foo/second_name
 
 $ tls -l /foo
--rw-r--r-- wkt      wkt          268 another_file
--rw-r--r-- wkt      wkt          268 newfile
--rw-r--r-- wkt      wkt          268 second_name
-  (I should make tls show link count)
+-rw-r--r--  2 wkt      wkt          268 another_file
+-rw-r--r--  1 wkt      wkt          268 newfile
+-rw-r--r--  2 wkt      wkt          268 second_name
 ```
 
 Now let's make some directories:
@@ -129,14 +128,14 @@ Now let's make some directories:
 ```
 $ tmkdir /foo/fred
 $ tls -l /foo
--rw-r--r-- wkt      wkt          268 another_file
-drwxr-xr-x wkt      wkt         4096 fred
--rw-r--r-- wkt      wkt          268 newfile
--rw-r--r-- wkt      wkt          268 second_name
+-rw-r--r-- 2 wkt      wkt          268 another_file
+drwxr-xr-x 2 wkt      wkt         4096 fred
+-rw-r--r-- 1 wkt      wkt          268 newfile
+-rw-r--r-- 2 wkt      wkt          268 second_name
 $ tcp /foo/second_name /foo/fred/lower_down
 
 $ tls -l /foo/fred
--rw-r--r-- wkt      wkt          268 lower_down
+-rw-r--r-- 1 wkt      wkt          268 lower_down
 
 $ trmdir /foo/fred
 Rmdir failed: Destination address required
@@ -146,9 +145,9 @@ $ trm /foo/fred/lower_down
 $ trmdir /foo/fred
 
 $ tls -l /foo
--rw-r--r-- wkt      wkt          268 another_file
--rw-r--r-- wkt      wkt          268 newfile
--rw-r--r-- wkt      wkt          268 second_name
+-rw-r--r-- 2 wkt      wkt          268 another_file
+-rw-r--r-- 1 wkt      wkt          268 newfile
+-rw-r--r-- 2 wkt      wkt          268 second_name
 ```
 
 Finally, there is a `tto` utility that send its standard input to a file.
