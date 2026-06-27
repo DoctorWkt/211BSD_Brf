@@ -23,11 +23,11 @@ Let's see what is in the remote directory:
 
 ```
 # tls -al /foo
-drwxr-xr-x wkt      wkt         4096 .
-drwxrwxrwx root     wheel      12288 ..
--rw-r--r-- wkt      wkt          268 another_file
--rw-r--r-- wkt      wkt          268 newfile
--rw-r--r-- wkt      wkt          268 second_name
+drwxr-xr-x 2 wkt      wkt         4096 .
+drwxrwxrwx 2 root     wheel      12288 ..
+-rw-r--r-- 2 wkt      wkt          268 another_file
+-rw-r--r-- 1 wkt      wkt          268 newfile
+-rw-r--r-- 2 wkt      wkt          268 second_name
 ```
 
 Now we can change ownership of some files:
@@ -35,11 +35,11 @@ Now we can change ownership of some files:
 ```
 # tchown root.wheel /foo/second_name
 # tls -al /foo
-drwxr-xr-x wkt      wkt         4096 .
-drwxrwxrwx root     wheel      12288 ..
--rw-r--r-- root     wheel        268 another_file
--rw-r--r-- wkt      wkt          268 newfile
--rw-r--r-- root     wheel        268 second_name
+drwxr-xr-x 2 wkt      wkt         4096 .
+drwxrwxrwx 2 root     wheel      12288 ..
+-rw-r--r-- 2 root     wheel        268 another_file
+-rw-r--r-- 1 wkt      wkt          268 newfile
+-rw-r--r-- 2 root     wheel        268 second_name
 ```
 
 Note that both `second_name` and `another_file` had their
