@@ -17,6 +17,9 @@ tls: No match.
 
 (as the shell cannot expand `/foo/*.tar`).
 
+If you are linking your program against `libbrf.a`, you will need to
+keep [this information](Linking.md) in mind.
+
 There is no security. Clients do not have to authenticate with the server,
 so any machine that can connect to the server can access files on the server.
 Also, pathnames could contain multiple "../", which means that a client
