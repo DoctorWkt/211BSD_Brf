@@ -8,22 +8,14 @@ the "glob" shell operators (e.g. '*', '?', '[ ... ]'):
 
 ```
 $ tls -l /foo
--rw-r--r-- wkt      wkt          110 Makefile
--r-------- wkt      wkt           29 abcd
--rw-r--r-- wkt      wkt       245760 brf.tar
+-rw-r--r-- 1 wkt      wkt          110 Makefile
+-r-------- 1 wkt      wkt           29 abcd
+-rw-r--r-- 1 wkt      wkt       245760 brf.tar
 $ tls -l /foo/*.tar
 tls: No match.
 ```
 
 (as the shell cannot expand `/foo/*.tar`).
-
-The performance of Brf, both latency and data throughput, is poor.
-This is most likely because I am using TCP. Each client request requires
-a TCP ACK and each server response requires a TCP ACK, which adds latency
-to successive file operations. And, as TCP has slow-start, it can take a
-while for the speed of a data transfer to ramp up. One solution would be
-to switch over to UDP but then we have to deal with packet retransmissions
-and idempotency.
 
 There is no security. Clients do not have to authenticate with the server,
 so any machine that can connect to the server can access files on the server.
@@ -35,6 +27,3 @@ the server filesystem becomes available.
 Remote pathnames, at present, _must_ be absolute, i.e. start with a '/'. It
 is technically possible to deal with relative pathnames, but I wanted to get
 the main functionality working before I even tried to support this.
-
-For some reason, data reads bigger than ~1,024 bytes from the server seem
-to fail sporadically. In the `brfserver` I've limited reads to 1,024 bytes.

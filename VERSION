@@ -1,3 +1,8 @@
+Version 0.2: Speed Improvement
+------------------------------
+The link ordering now has a workaround. The throughput is now
+roughly half that of ftp, which isn't bad given the protocol design.
+
 Version 0.1: First release of Brf
 ---------------------------------
 Most of the file-related syscalls have shim functions.

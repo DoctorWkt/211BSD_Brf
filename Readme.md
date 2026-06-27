@@ -14,7 +14,8 @@ request to the remote file server which does the work on that system.
 There are significant limitations, see the [Limitations.md](Docs/Limitations.md)
 file for details. For now, you get a small set of "tiny" utilities that
 can see the remote filesystem; all the existing utilities cannot.
-Also, the latency and transfer speeds need to be improved.
+The latency and transfer speeds are about half of the normal `ftp` utility,
+which is not too bad given the way the Brf protocol works.
 
 You also get the Brf library, `libbrf.a`, which holds all the "shim"
 functions if you want to link them in to your own utility.

@@ -73,6 +73,7 @@ bad:
 int brf_recv(void *data, int *datalen) {
   struct brf_resp bresp;
   int num;
+  uint16_t limit;
 
   // Receive the response struct. I thought recv() would block
   // until there is data, but sometimes it returns 0. The loop
@@ -106,10 +107,17 @@ int brf_recv(void *data, int *datalen) {
 		bresp.result, bresp.err, bresp.len);
 #endif
 
-  // Get any extra data
+#define MAX_RECVSIZE 1400
+
+  // Get any extra data. It seems that large recv()s
+  // fail, so we take bites at the input until we get it all.
   if (bresp.len > 0) {
     *datalen= bresp.len;
-    if (recv(brf_fd, data, bresp.len, 0) < 0) goto bad;
+    while (bresp.len != 0) {
+      limit= (bresp.len > MAX_RECVSIZE) ? MAX_RECVSIZE : bresp.len;
+      if ((num= recv(brf_fd, data, limit, 0)) < 0) goto bad;
+      bresp.len -= num; data += num;
+    }
   }
 
   // Set errno if required.

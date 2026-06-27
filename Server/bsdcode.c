@@ -347,11 +347,6 @@ void serve_requests(int fd) {
       if (read(fd, &brw, sizeof(brw)) != sizeof(brw)) { result = -1; break; }
       brw.fd -= BRF_FDOFFSET;
 
-      // XXX For now, limit reads to MAX_READ bytes of data
-      // as the read() fails on larger values.
-#define MAX_READ 1400
-      if (brw.nbytes > MAX_READ) brw.nbytes= MAX_READ;
-
       // Read the requested amount of data
       result = read(brw.fd, databuf, brw.nbytes);
 #ifdef DEBUG
