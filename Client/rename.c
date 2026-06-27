@@ -11,11 +11,6 @@
 int rename(char *path, char *path2) {
   int ret;
 
-  // If the path starts with "/etc/" then
-  // it is local. We need to allow gethostbyname() to work
-  if (path != NULL && !strncmp(path, "/etc/", 5))
-    return(sysrename(path, path2));
-
   // Ditto path2
   if (path2 != NULL && !strncmp(path2, "/etc/", 5))
     return(sysrename(path, path2));

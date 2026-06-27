@@ -11,11 +11,6 @@
 int chmod(char *path, int mode) {
   int ret;
 
-  // If the path starts with "/etc/" then
-  // it is local. We need to allow gethostbyname() to work
-  if (path != NULL && !strncmp(path, "/etc/", 5))
-    return(syschmod(path, mode));
-
   // No path?
   if (path==NULL) { errno= EFAULT; return(-1); }
 

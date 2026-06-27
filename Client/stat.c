@@ -12,11 +12,6 @@ int stat(char *path, struct stat *buf) {
   int ret;
   int num;
 
-  // If the path starts with "/etc/" then
-  // it is local. We need to allow gethostbyname() to work
-  if (path != NULL && !strncmp(path, "/etc/", 5))
-    return(sysstat(path, buf));
-
   // No path or buf?
   if (path==NULL) { errno= EFAULT; return(-1); }
   if (buf==NULL) { errno= EFAULT; return(-1); }

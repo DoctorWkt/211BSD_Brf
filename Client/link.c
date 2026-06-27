@@ -11,15 +11,6 @@
 int link(char *path, char *path2) {
   int ret;
 
-  // If the path starts with "/etc/" then
-  // it is local. We need to allow gethostbyname() to work
-  if (path != NULL && !strncmp(path, "/etc/", 5))
-    return(syslink(path, path2));
-
-  // Ditto path2
-  if (path2 != NULL && !strncmp(path2, "/etc/", 5))
-    return(syslink(path, path2));
-
   // No paths?
   if (path==NULL || path2==NULL) { errno= EFAULT; return(-1); }
 
