@@ -1,5 +1,7 @@
 # Linking `libbrf.a` Into Your Program
 
+## A Linking Issue
+
 I've run across an issue with trying to link `libbrf.a` into one of
 my programs, specifically [tls.c](../Client/tiny/tls.c).
 
@@ -32,3 +34,24 @@ $ cc -o tls -O -i tls.c -u _open -u _close -u _read libbrf.a
 
 Many thanks to Steven Schultz and Johnny Billquist who patiently
 explained this to me.
+
+## Saving Space
+
+Linking `libbrf.a` into your program adds about 10K of extra space.
+This is because we need to use `gethostbyname()` to convert the
+server name in `/etc/brf.conf` into a format we can use with
+`connect()`.
+
+There is a way to reduce this cost. In the client `Makefile`, add
+`-DBINARY_CONFIGFILE` to the `CFLAGS` at the top, rebuild the
+library and relink your program.
+
+This causes the `open()` shim function to read the configuration from
+a binary config file: `/etc/brf.bcnf`. The struct that we need to
+send to `connect()` is already created and so we don't need
+`gethostbyname()` and friends.
+
+Now you need to make the `/etc/brf.bcnf` file. Assuming that you have
+already made the text configuration file `/etc/brf.conf`, as `root`
+run the `mkbrfcnf` program that is created along with the `libbrf.a`
+library. This reads the text configuration file and builds the binary version.

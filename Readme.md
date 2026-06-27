@@ -106,6 +106,7 @@ See the [Limitations.md](Docs/Limitations.md) file for details.
 
   + [Limitations of Brf](Docs/Limitations.md)
   + [Details of the Brf protocol](Docs/Protocol.md)
+  + [Details about Linking the Brf library](Docs/Linking.md)
   + [A to-do list](Docs/TODO.md)
 
 The tiny utilities have no man pages. Please run them with no arguments

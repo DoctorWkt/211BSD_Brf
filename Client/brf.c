@@ -21,8 +21,12 @@ static int brf_fd = -2;
 
 // Buffer that holds the directory name which is remote
 // and the length of the directory name
+#ifdef BINARY_CONFIGFILE
+static char *brf_dir;
+#else
 #define BUFSIZE 80
 static char brf_dir[BUFSIZE];
+#endif
 static int brf_dirlen;
 
 // Given a brf command, pointer to any following data and the
@@ -137,19 +141,45 @@ bad:
 // to the server. Return 0 if OK, -1 on failure.
 static int brf_conn() {
   int zin;
-  char *servername;
-  char *serverport;
   int sock;
-  struct hostent *hp;
   struct sockaddr_in server;
   struct brf_init binit;
+#ifndef BINARY_CONFIGFILE
+  char *servername;
+  char *serverport;
+  struct hostent *hp;
+#endif
 
 #ifdef DEBUG
   // Connect to the system logger
   openlog("brf", LOG_PID, LOG_USER);
 #endif
 
-  // Open the configuration file
+  // Make a socket for the connection
+  if ((sock = socket(AF_INET, SOCK_STREAM, 0))<0) goto bad;
+
+#ifdef BINARY_CONFIGFILE
+  // Open the binary configuration file
+  if ((zin= sysopen("/etc/brf.bcnf", O_RDONLY))==-1) goto bad;
+
+  // Read in the server structure
+  if (sysread(zin, (char *)&server, sizeof(server)) <=0) {
+	sysclose(zin); goto bad;
+  }
+
+  // Read in the size of brf_dir
+  if (sysread(zin, (char *)&brf_dirlen, sizeof(brf_dirlen)) <=0) {
+	sysclose(zin); goto bad;
+  }
+
+  // Read in the brf_dir details
+  brf_dir= (char *)malloc(brf_dirlen);
+  if (sysread(zin, brf_dir, brf_dirlen) <=0) { sysclose(zin); goto bad; }
+
+  // Make brf_dirlen the strlen value
+  brf_dirlen--; sysclose(zin);
+#else
+  // Open the text configuration file
   if ((zin= sysopen("/etc/brf.conf", O_RDONLY))==-1) goto bad;
 
   // Read and parse the contents
@@ -168,13 +198,15 @@ static int brf_conn() {
 	brf_dir, servername, serverport);
 #endif
 
-  // Try to open the connection to the server
-  if ((sock = socket(AF_INET, SOCK_STREAM, 0))<0) goto bad;
+  // Build the server structure's contents
   server.sin_family = AF_INET;
   if ((hp = gethostbyname(servername))==NULL) goto bad;
 
   bcopy(hp->h_addr, &server.sin_addr, hp->h_length);
   server.sin_port = htons(atoi(serverport));
+#endif
+
+  // Try to open the connection to the server
   if (connect(sock, &server, sizeof(server)) < 0) goto bad;
   brf_fd= sock;
 
