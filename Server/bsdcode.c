@@ -31,7 +31,7 @@ void build_errno_map(void) {
   }
 
   // Set zero entry to zero!
-  errmap[i]= 0;
+  errmap[0]= 0;
 
   // Now manually map server to 2.11BSD values
   errmap[EPERM]= BSD_EPERM;
