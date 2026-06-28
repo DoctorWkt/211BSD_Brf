@@ -1,4 +1,6 @@
 // bsdcode.c
+void build_errno_map(void);
+uint16_t map_errno();
 void set_brf_root(char *dirname);
 char *xlate_filename(char *name);
 uint16_t map_fcntl(uint16_t f);

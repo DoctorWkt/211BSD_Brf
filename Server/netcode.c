@@ -114,7 +114,7 @@ int brf_respond(int fd, int result, int cmd, void *data, int datalen) {
   bresp.cmd = cmd;
   bresp.result = result;
   bresp.len = datalen;
-  bresp.err = errno;		// XXX Need to map errno
+  bresp.err = map_errno();
 
   // Build the iovec table
   iov[0].iov_base= &bresp;
@@ -153,7 +153,9 @@ int main(int argc, char *argv[]) {
   if (optind >= argc) usage(argv[0]);
 
   // Set the base of the simulated filesystem
+  // and build the errno map
   set_brf_root(argv[optind]);
+  build_errno_map();
 
   // Bind to our TCP port
   bind_server_port();

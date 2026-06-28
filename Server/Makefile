@@ -1,4 +1,4 @@
-CFLAGS= -O
+CFLAGS= -O -Wall
 #CFLAGS= -g -Wall -DDEBUG
 
 brfserver: netcode.c bsdcode.c brf.h

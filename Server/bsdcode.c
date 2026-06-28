@@ -17,6 +17,102 @@
 #include "bsdcode.h"
 #include "proto.h"
 
+// We keep an array to map server
+// errno values to 2.11BSD ones
+#define ERR_MAPSIZE 128
+uint16_t errmap[ERR_MAPSIZE];
+
+void build_errno_map(void) {
+  int i;
+
+  // Fill the table with something
+  for (i=0; i < ERR_MAPSIZE; i++) {
+    errmap[i]= BSD_EINVAL;
+  }
+
+  // Set zero entry to zero!
+  errmap[i]= 0;
+
+  // Now manually map server to 2.11BSD values
+  errmap[EPERM]= BSD_EPERM;
+  errmap[ENOENT]= BSD_ENOENT;
+  errmap[ESRCH]= BSD_ESRCH;
+  errmap[EINTR]= BSD_EINTR;
+  errmap[EIO]= BSD_EIO;
+  errmap[ENXIO]= BSD_ENXIO;
+  errmap[E2BIG]= BSD_E2BIG;
+  errmap[ENOEXEC]= BSD_ENOEXEC;
+  errmap[EBADF]= BSD_EBADF;
+  errmap[ECHILD]= BSD_ECHILD;
+  errmap[EAGAIN]= BSD_EAGAIN;
+  errmap[ENOMEM]= BSD_ENOMEM;
+  errmap[EACCES]= BSD_EACCES;
+  errmap[EFAULT]= BSD_EFAULT;
+  errmap[ENOTBLK]= BSD_ENOTBLK;
+  errmap[EBUSY]= BSD_EBUSY;
+  errmap[EEXIST]= BSD_EEXIST;
+  errmap[EXDEV]= BSD_EXDEV;
+  errmap[ENODEV]= BSD_ENODEV;
+  errmap[ENOTDIR]= BSD_ENOTDIR;
+  errmap[EISDIR]= BSD_EISDIR;
+  errmap[EINVAL]= BSD_EINVAL;
+  errmap[ENFILE]= BSD_ENFILE;
+  errmap[EMFILE]= BSD_EMFILE;
+  errmap[ENOTTY]= BSD_ENOTTY;
+  errmap[ETXTBSY]= BSD_ETXTBSY;
+  errmap[EFBIG]= BSD_EFBIG;
+  errmap[ENOSPC]= BSD_ENOSPC;
+  errmap[ESPIPE]= BSD_ESPIPE;
+  errmap[EROFS]= BSD_EROFS;
+  errmap[EMLINK]= BSD_EMLINK;
+  errmap[EPIPE]= BSD_EPIPE;
+  errmap[EWOULDBLOCK]= BSD_EWOULDBLOCK;
+  errmap[EDEADLK]= BSD_EDEADLK;
+  errmap[EINPROGRESS]= BSD_EINPROGRESS;
+  errmap[EALREADY]= BSD_EALREADY;
+  errmap[ENOTSOCK]= BSD_ENOTSOCK;
+  errmap[EDESTADDRREQ]= BSD_EDESTADDRREQ;
+  errmap[EMSGSIZE]= BSD_EMSGSIZE;
+  errmap[EPROTOTYPE]= BSD_EPROTOTYPE;
+  errmap[ENOPROTOOPT]= BSD_ENOPROTOOPT;
+  errmap[EPROTONOSUPPORT]= BSD_EPROTONOSUPPORT;
+  errmap[ESOCKTNOSUPPORT]= BSD_ESOCKTNOSUPPORT;
+  errmap[EOPNOTSUPP]= BSD_EOPNOTSUPP;
+  errmap[EPFNOSUPPORT]= BSD_EPFNOSUPPORT;
+  errmap[EAFNOSUPPORT]= BSD_EAFNOSUPPORT;
+  errmap[EADDRINUSE]= BSD_EADDRINUSE;
+  errmap[EADDRNOTAVAIL]= BSD_EADDRNOTAVAIL;
+  errmap[ENETDOWN]= BSD_ENETDOWN;
+  errmap[ENETUNREACH]= BSD_ENETUNREACH;
+  errmap[ENETRESET]= BSD_ENETRESET;
+  errmap[ECONNABORTED]= BSD_ECONNABORTED;
+  errmap[ECONNRESET]= BSD_ECONNRESET;
+  errmap[ENOBUFS]= BSD_ENOBUFS;
+  errmap[EISCONN]= BSD_EISCONN;
+  errmap[ENOTCONN]= BSD_ENOTCONN;
+  errmap[ESHUTDOWN]= BSD_ESHUTDOWN;
+  errmap[ETOOMANYREFS]= BSD_ETOOMANYREFS;
+  errmap[ETIMEDOUT]= BSD_ETIMEDOUT;
+  errmap[ECONNREFUSED]= BSD_ECONNREFUSED;
+  errmap[ELOOP]= BSD_ELOOP;
+  errmap[ENAMETOOLONG]= BSD_ENAMETOOLONG;
+  errmap[EHOSTDOWN]= BSD_EHOSTDOWN;
+  errmap[EHOSTUNREACH]= BSD_EHOSTUNREACH;
+  errmap[ENOTEMPTY]= BSD_ENOTEMPTY;
+  errmap[EUSERS]= BSD_EUSERS;
+  errmap[EDQUOT]= BSD_EDQUOT;
+  errmap[ESTALE]= BSD_ESTALE;
+  errmap[EREMOTE]= BSD_EREMOTE;
+  errmap[ENOLCK]= BSD_ENOLCK;
+  errmap[ENOSYS]= BSD_ENOSYS;
+}
+
+// Map the server errno to 2.11BSD errno values
+uint16_t map_errno() {
+  if (errno >= ERR_MAPSIZE) return(BSD_EINVAL);
+  return(errmap[errno]);
+}
+
 // The following two buffers are used as
 // part of the translation from virtual
 // absolute filenames to native ones. We
