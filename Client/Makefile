@@ -1,6 +1,6 @@
 CFLAGS= -O
 #CFLAGS= -DDEBUG
-CFLAGS= -O -DBINARY_CONFIGFILE
+#CFLAGS= -O -DBINARY_CONFIGFILE
 
 # If you want to save about 10K of space in the programs you link
 # with libbrf.a, then add -DBINARY_CONFIGFILE to CFLAGS above.
